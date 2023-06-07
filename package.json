@@ -1,0 +1,25 @@
+{
+  "name": "ripple-vscode",
+  "displayName": "ripple-vscode",
+  "description": "A vscode extension for the Ripple programming language.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.78.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "ripple",
+      "aliases": ["Ripple", "ripple"],
+      "extensions": [".ripl"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "ripple",
+      "scopeName": "source.ripl",
+      "path": "./syntaxes/ripple.tmLanguage.json"
+    }]
+  }
+}
