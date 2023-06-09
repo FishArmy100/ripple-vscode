@@ -3,27 +3,246 @@
 	"name": "Ripple",
 	"patterns": [
 		{
-			"include": "#keywords"
+			"include": "#block-comments"
+		},
+		{
+			"include": "#comments"
 		},
 		{
 			"include": "#strings"
+		},
+		{
+			"include": "#function-declaration"
+		},
+		{
+			"include": "#expressions"
 		}
 	],
 	"repository": {
-		"keywords": {
+		"function-declaration": {
 			"patterns": [{
-				"name": "keyword.control.ripple",
-				"match": "\\b(if|while|for|return)\\b"
+				"begin": "\\b(func)\\s+([a-z][a-z0-1_]*)\\s*(\\(|<)",
+				"beginCaptures": {
+					"1":{"name":"keyword.ripple"},
+					"2":{"name":"entity.name.function.ripple"}
+				},
+				"end": "\\)",
+				"patterns": [
+					{
+						"include": "#block-comments"
+					},
+					{
+						"include": "#comments"
+					},
+					{
+						"include": "#strings"
+					},
+					{
+						"include": "#keywords"
+					},
+					{
+						"include": "#types"
+					},
+					{
+						"include": "#literals"
+					},
+					{
+						"include": "#variables"
+					},
+					{
+						"include": "#lifetimes"
+					}
+				]
+			}]
+		},
+		"expressions": {
+			"patterns": 
+			[
+				{
+					"include": "#block-comments"
+				},
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#types"
+				},
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#variables"
+				},
+				{
+					"include": "#lifetimes"
+				},
+				{
+					"include": "#operators"
+				}
+			]
+		},
+		"types": {
+			"patterns": 
+			[
+				{
+					"comment": "User defined type",
+					"name": "entity.name.class.ripple",
+					"match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+				},
+				{
+					"comment": "Primative numeric types.",
+					"name": "entity.name.type.numeric.ripple",
+					"match": "\\b(int|float)\\b"
+				},
+				{
+					"comment": "primitive types",
+					"name": "entity.name.type.primitive.ripple",
+					"match": "\\b(bool|char)\\b"
+				},
+				{
+					"comment": "Void type",
+					"name": "entity.name.type.primitive.ripple",
+					"match": "void"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [{
+				"name": "variable.other.rust",
+				"match": "[a-z_][a-z0-9_]*"
+			}]
+		},
+		"keywords": {
+			"patterns": 
+			[
+				{
+					"comment": "Base keyword for Ripple",
+					"name": "keyword.ripple",
+					"match": "\\b(func|as|mut|extern|class|public|private|where|unsafe|as|nullptr|this)\\b"
+				},
+				{
+					"comment": "Control flow keyword for Ripple",
+					"name": "keyword.control.ripple",
+					"match": "\\b(if|else|while|for|return|continue|break)\\b"
+				},
+				{
+					"comment": "Arrow",
+					"name":"keyword.other.ripple",
+					"match": "->"
+				}
+			]
+		},
+		"operators": {
+			"patterns": 
+			[
+				{
+					"comment": "operators",
+					"name": "keyword.operator.ripple",
+					"match": "(==|!=|>=|<=|=|<|>|\\+|-|/|\\*|%|&&|\\|\\|)"
+				}
+			]
+		},
+		"literals": {
+			"patterns": 
+			[
+				{
+					"comment": "floats",
+					"name": "constant.numeric.decimal.ripple",
+					"match": "\\b\\d+(\\.)\\d+\\b",
+					"captures": 
+					{
+						"1": {
+							"name": "punctuation.separator.dot.decimal.rust"
+						}
+					}
+				},
+				{
+					"comment": "intagers",
+					"name": "constant.numeric.decimal.ripple",
+					"match": "\\b\\d+\\b"
+				},
+				{
+					"comment": "Boolean literals",
+					"name": "constant.language.bool.ripple",
+					"match": "\\b(true|false)\\b"
+				},
+				{
+					"comment": "Charactor literal",
+					"name": "constant.character.ripple",
+					"match": "'.'"
+				},
+				{
+					"comment": "Special charactor literal",
+					"name": "constant.character.ripple",
+					"match": "'(\\\\.)'",
+					"captures": {
+						"1":{"name": "constant.character.escape.ripple"}
+					}
+				}
+			]
+		},
+		"lifetimes":{
+			"patterns": [{
+				"name":"entity.name.type.ripple",
+				"match": "(['])[A-Za-z_][A-Za-z0-9_]*(?!['])\\b"
 			}]
 		},
 		"strings": {
 			"name": "string.quoted.double.ripple",
-			"begin": "\"",
+			"begin": "c?\"",
 			"end": "\"",
 			"patterns": [
 				{
 					"name": "constant.character.escape.ripple",
 					"match": "\\\\."
+				}
+			]
+		},
+
+		"comments": {
+			"patterns": [
+				{
+					"comment": "line comments",
+					"name": "comment.line.double-slash.ripple",
+					"match": "\\s*//.*"
+				}
+			]
+		},
+
+		"block-comments": {
+			"patterns": [
+				{
+					"comment": "empty block comments",
+					"name": "comment.block.ripple",
+					"match": "/\\*\\*/"
+				},
+				{
+					"comment": "block documentation comments",
+					"name": "comment.block.documentation.ripple",
+					"begin": "/\\*\\*",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"include": "#block-comments"
+						}
+					]
+				},
+				{
+					"comment": "block comments",
+					"name": "comment.block.ripple",
+					"begin": "/\\*(?!\\*)",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"include": "#block-comments"
+						}
+					]
 				}
 			]
 		}
