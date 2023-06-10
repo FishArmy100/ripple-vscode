@@ -84,6 +84,9 @@
 				},
 				{
 					"include": "#operators"
+				},
+				{
+					"include": "#destructor"
 				}
 			]
 		},
@@ -113,10 +116,18 @@
 			]
 		},
 		"variables": {
-			"patterns": [{
-				"name": "variable.other.rust",
-				"match": "[a-z_][a-z0-9_]*"
-			}]
+			"patterns": 
+			[
+				{
+					"comment": "Call operators",
+					"name": "entity.name.function.ripple",
+					"match": "[a-z_][a-z0-9_]*\\("
+				},
+				{
+					"name": "variable.other.rust",
+					"match": "[a-z_][a-z0-9_]*"
+				}
+			]
 		},
 		"keywords": {
 			"patterns": 
@@ -148,11 +159,18 @@
 				}
 			]
 		},
+		"destructor": {
+			"patterns": [{
+				"comment": "Destructor",
+				"name": "entity.name.function.ripple",
+				"match": "~[A-Z_][A-Za-z0-9_]*"
+			}]
+		},
 		"literals": {
 			"patterns": 
 			[
 				{
-					"comment": "floats",
+					"comment": "Floats",
 					"name": "constant.numeric.decimal.ripple",
 					"match": "\\b\\d+(\\.)\\d+\\b",
 					"captures": 
@@ -163,7 +181,7 @@
 					}
 				},
 				{
-					"comment": "intagers",
+					"comment": "Intagers",
 					"name": "constant.numeric.decimal.ripple",
 					"match": "\\b\\d+\\b"
 				},
@@ -174,12 +192,12 @@
 				},
 				{
 					"comment": "Charactor literal",
-					"name": "constant.character.ripple",
+					"name": "string.quoted.single.ripple",
 					"match": "'.'"
 				},
 				{
 					"comment": "Special charactor literal",
-					"name": "constant.character.ripple",
+					"name": "string.quoted.single.ripple",
 					"match": "'(\\\\.)'",
 					"captures": {
 						"1":{"name": "constant.character.escape.ripple"}
@@ -189,7 +207,7 @@
 		},
 		"lifetimes":{
 			"patterns": [{
-				"name":"entity.name.type.ripple",
+				"name":"entity.name.type.lifetime.ripple",
 				"match": "(['])[A-Za-z_][A-Za-z0-9_]*(?!['])\\b"
 			}]
 		},
@@ -204,7 +222,6 @@
 				}
 			]
 		},
-
 		"comments": {
 			"patterns": [
 				{
@@ -214,7 +231,6 @@
 				}
 			]
 		},
-
 		"block-comments": {
 			"patterns": [
 				{
